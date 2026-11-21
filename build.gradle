@@ -75,7 +75,18 @@ configurations {
     runtimeClasspath.extendsFrom localRuntime
 }
 
+repositories {
+    maven {
+        url = "https://maven.latvian.dev/releases"
+        content {
+            includeGroup "dev.latvian.mods"
+            includeGroup "dev.latvian.apps"
+        }
+    }
+}
+
 dependencies {
+    compileOnly "dev.latvian.mods:kubejs-neoforge:${kubejs_version}"
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {

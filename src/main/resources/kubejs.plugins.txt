@@ -1,0 +1,1 @@
+com.snoopycorp.amcore.kubejs.AMKubeJSPlugin

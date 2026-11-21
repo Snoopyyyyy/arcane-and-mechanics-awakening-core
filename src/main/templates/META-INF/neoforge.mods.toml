@@ -24,3 +24,10 @@ Core mod of the Arcane & Mechanics: Awakening modpack.
     versionRange="${minecraft_version_range}"
     ordering="NONE"
     side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="kubejs"
+    type="optional"
+    versionRange="[2101.7,)"
+    ordering="NONE"
+    side="BOTH"

@@ -1,0 +1,21 @@
+{
+  "name": "Arcane & Mechanics Core (NeoForge 1.21.1)",
+  "dockerComposeFile": "compose.yaml",
+  "service": "mod",
+  "workspaceFolder": "/app",
+  "shutdownAction": "stopCompose",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.profiles.linux": {
+          "fish": { "path": "/usr/bin/fish" }
+        },
+        "terminal.integrated.defaultProfile.linux": "fish"
+      },
+      "extensions": [
+        "vscjava.vscode-java-pack",
+        "vscjava.vscode-gradle"
+      ]
+    }
+  }
+}

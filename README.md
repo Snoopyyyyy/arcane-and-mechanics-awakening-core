@@ -1,25 +1,42 @@
+# Arcane & Mechanics Core
 
-Installation information
-=======
+Core mod of the **Arcane & Mechanics: Awakening** modpack for Minecraft 1.21.1 on NeoForge.
 
-This template repository can be directly cloned to get you started with a new
-mod. Simply create a new repository cloned from this one, by following the
-instructions provided by [GitHub](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template).
+It provides the content the modpack needs that KubeJS scripts cannot handle cleanly. Content is declared in Java, and its resources (models, blockstates, translations) are produced by data generation.
 
-Once you have your clone, simply open the repository in the IDE of your choice. The usual recommendation for an IDE is either IntelliJ IDEA or Eclipse.
+## Requirements
 
-If at any point you are missing libraries in your IDE, or you've run into problems you can
-run `gradlew --refresh-dependencies` to refresh the local cache. `gradlew clean` to reset everything 
-{this does not affect your code} and then start the process again.
+| Component | Version |
+|-----------|---------|
+| Minecraft | 1.21.1 |
+| NeoForge  | 21.1.248 or newer |
+| Java      | 21 |
 
-Mapping Names:
-============
-By default, the MDK is configured to use the official mapping names from Mojang for methods and fields 
-in the Minecraft codebase. These names are covered by a specific license. All modders should be aware of this
-license. For the latest license text, refer to the mapping file itself, or the reference copy here:
-https://github.com/NeoForged/NeoForm/blob/main/Mojang.md
+## Development
 
-Additional Resources: 
-==========
-Community Documentation: https://docs.neoforged.net/  
-NeoForged Discord: https://discord.neoforged.net/
+Work happens on the `develop` branch.
+
+The build runs in the dev container defined in `.devcontainer/`, so Java is not needed on the host:
+
+```sh
+docker compose -f .devcontainer/compose.yaml up -d
+docker exec arcane-mechanics-core sh -c 'cd /app && ./gradlew build'
+```
+
+The mod jar is written to `output/amcore-<version>.jar`.
+
+### Data generation
+
+Generated resources live in `src/generated/resources` and are committed. They are never edited by hand: change the providers in `com.snoopycorp.amcore.data`, then regenerate and rebuild:
+
+```sh
+docker exec arcane-mechanics-core sh -c 'cd /app && ./gradlew runData build'
+```
+
+Translations are provided for `en_us` and `fr_fr`.
+
+## License
+
+All Rights Reserved, © Snoopy.
+
+Files taken from the NeoForge MDK template remain under the MIT license, see `TEMPLATE_LICENSE.txt`.

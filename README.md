@@ -38,5 +38,3 @@ Translations are provided for `en_us` and `fr_fr`.
 ## License
 
 All Rights Reserved, © Snoopy.
-
-Files taken from the NeoForge MDK template remain under the MIT license, see `TEMPLATE_LICENSE.txt`.

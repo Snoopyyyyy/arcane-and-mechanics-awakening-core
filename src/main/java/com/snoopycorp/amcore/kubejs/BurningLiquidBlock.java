@@ -1,5 +1,7 @@
 package com.snoopycorp.amcore.kubejs;
 
+import com.snoopycorp.amcore.damage.AMDamageTypes;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
@@ -24,7 +26,7 @@ public class BurningLiquidBlock extends LiquidBlock {
             return;
         }
         entity.igniteForSeconds(burnSeconds);
-        if (entity.hurt(entity.damageSources().lava(), burnDamage)) {
+        if (entity.hurt(entity.damageSources().source(AMDamageTypes.MOLTEN), burnDamage)) {
             entity.playSound(SoundEvents.GENERIC_BURN, 0.4F, 2.0F + level.getRandom().nextFloat() * 0.4F);
         }
     }

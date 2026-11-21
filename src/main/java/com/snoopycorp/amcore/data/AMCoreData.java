@@ -2,6 +2,8 @@ package com.snoopycorp.amcore.data;
 
 import com.snoopycorp.amcore.AMCore;
 import com.snoopycorp.amcore.data.lang.*;
+import com.snoopycorp.amcore.data.registry.AMDatapackProvider;
+import com.snoopycorp.amcore.data.tags.AMDamageTypeTagsProvider;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
@@ -22,5 +24,8 @@ public final class AMCoreData {
         // Language providers
         generator.addProvider(event.includeClient(), new AMEnglishLanguageProvider(output));
         generator.addProvider(event.includeClient(), new AMFrenchLanguageProvider(output));
+
+        AMDatapackProvider datapack = generator.addProvider(event.includeServer(), new AMDatapackProvider(output, event.getLookupProvider()));
+        generator.addProvider(event.includeServer(), new AMDamageTypeTagsProvider(output, datapack.getRegistryProvider(), event.getExistingFileHelper()));
     }
 }

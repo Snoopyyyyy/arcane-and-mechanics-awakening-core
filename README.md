@@ -35,6 +35,22 @@ docker exec arcane-mechanics-core sh -c 'cd /app && ./gradlew runData build'
 
 Translations are provided for `en_us` and `fr_fr`.
 
+### Publishing
+
+The `Build and publish` workflow builds the jar and uploads it to CurseForge on every push:
+
+| Branch    | CurseForge type | Version |
+|-----------|-----------------|---------|
+| `main`    | Release         | `mod_version`, tagged `v<version>` |
+| `develop` | Beta            | `mod_version-beta.<run number>` |
+
+A version that is already tagged is not published again, so bump `mod_version` in `gradle.properties` before merging into `main`.
+
+The workflow needs, in the repository settings:
+
+- the secret `CURSEFORGE_TOKEN`, an API token from the CurseForge account settings;
+- the variable `CURSEFORGE_PROJECT_ID`, the project ID shown on the CurseForge project page.
+
 ## License
 
 All Rights Reserved, © Snoopy.

@@ -1,6 +1,6 @@
 # Arcane & Mechanics Core
 
-Core mod of the **Arcane & Mechanics: Awakening** modpack for Minecraft 1.21.1 on NeoForge.
+Core mod of the **Arcane & Mechanics** modpack for Minecraft 1.21.1 on NeoForge.
 
 It provides the content the modpack needs that KubeJS scripts cannot handle cleanly. Content is declared in Java, and its resources (models, blockstates, translations) are produced by data generation.
 

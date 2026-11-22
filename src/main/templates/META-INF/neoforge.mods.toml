@@ -8,7 +8,7 @@ version="${mod_version}"
 displayName="${mod_name}"
 authors="${mod_authors}"
 description='''
-Core mod of the Arcane & Mechanics: Awakening modpack.
+Core mod of the Arcane & Mechanics modpack.
 '''
 
 [[dependencies.${mod_id}]]

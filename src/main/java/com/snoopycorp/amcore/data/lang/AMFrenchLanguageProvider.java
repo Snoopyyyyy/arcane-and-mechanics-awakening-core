@@ -12,7 +12,7 @@ public class AMFrenchLanguageProvider extends LanguageProvider {
 
     @Override
     protected void addTranslations() {
-        add("fml.menu.mods.info.description." + AMCore.MODID, "Mod central du modpack Arcane & Mechanics: Awakening.");
+        add("fml.menu.mods.info.description." + AMCore.MODID, "Mod central du modpack Arcane & Mechanics.");
         add("death.attack." + AMCore.MODID + ".molten", "%1$s a fondu dans du métal en fusion");
         add("death.attack." + AMCore.MODID + ".molten.player", "%1$s a fondu dans du métal en fusion en essayant d'échapper à %2$s");
     }

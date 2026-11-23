@@ -23,5 +23,9 @@ public class AMDamageTypeTagsProvider extends TagsProvider<DamageType> {
         tag(DamageTypeTags.IS_FIRE).add(AMDamageTypes.MOLTEN);
         tag(DamageTypeTags.NO_KNOCKBACK).add(AMDamageTypes.MOLTEN);
         tag(DamageTypeTags.PANIC_ENVIRONMENTAL_CAUSES).add(AMDamageTypes.MOLTEN);
+
+        tag(DamageTypeTags.IS_FIRE).add(AMDamageTypes.HOT_TOUCH);
+        tag(DamageTypeTags.NO_KNOCKBACK).add(AMDamageTypes.HOT_TOUCH);
+        tag(DamageTypeTags.BYPASSES_ARMOR).add(AMDamageTypes.HOT_TOUCH);
     }
 }

@@ -15,5 +15,7 @@ public class AMEnglishLanguageProvider extends LanguageProvider {
         add("fml.menu.mods.info.description." + AMCore.MODID, "Core mod of the Arcane & Mechanics modpack.");
         add("death.attack." + AMCore.MODID + ".molten", "%1$s melted in molten metal");
         add("death.attack." + AMCore.MODID + ".molten.player", "%1$s melted in molten metal while trying to escape %2$s");
+        add("death.attack." + AMCore.MODID + ".hot_touch", "%1$s burned their hands");
+        add("death.attack." + AMCore.MODID + ".hot_touch.player", "%1$s burned their hands while trying to escape %2$s");
     }
 }

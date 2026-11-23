@@ -15,5 +15,7 @@ public class AMFrenchLanguageProvider extends LanguageProvider {
         add("fml.menu.mods.info.description." + AMCore.MODID, "Mod central du modpack Arcane & Mechanics.");
         add("death.attack." + AMCore.MODID + ".molten", "%1$s a fondu dans du métal en fusion");
         add("death.attack." + AMCore.MODID + ".molten.player", "%1$s a fondu dans du métal en fusion en essayant d'échapper à %2$s");
+        add("death.attack." + AMCore.MODID + ".hot_touch", "%1$s s'est brûlé les mains");
+        add("death.attack." + AMCore.MODID + ".hot_touch.player", "%1$s s'est brûlé les mains en essayant d'échapper à %2$s");
     }
 }

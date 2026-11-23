@@ -1,4 +1,6 @@
 {
+  "death.attack.amcore.hot_touch": "%1$s s'est brûlé les mains",
+  "death.attack.amcore.hot_touch.player": "%1$s s'est brûlé les mains en essayant d'échapper à %2$s",
   "death.attack.amcore.molten": "%1$s a fondu dans du métal en fusion",
   "death.attack.amcore.molten.player": "%1$s a fondu dans du métal en fusion en essayant d'échapper à %2$s",
   "fml.menu.mods.info.description.amcore": "Mod central du modpack Arcane & Mechanics."

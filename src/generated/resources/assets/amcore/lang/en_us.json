@@ -1,4 +1,9 @@
 {
+  "amcore.heat.name": "%s (%s)",
+  "amcore.heat.state.hot": "Hot",
+  "amcore.heat.state.scorching": "Scorching",
+  "amcore.heat.state.warm": "Warm",
+  "amcore.heat.tooltip": "%s: %s°",
   "death.attack.amcore.hot_touch": "%1$s burned their hands",
   "death.attack.amcore.hot_touch.player": "%1$s burned their hands while trying to escape %2$s",
   "death.attack.amcore.molten": "%1$s melted in molten metal",

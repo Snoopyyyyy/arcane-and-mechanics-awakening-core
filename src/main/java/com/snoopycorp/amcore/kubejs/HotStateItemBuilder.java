@@ -3,6 +3,7 @@ package com.snoopycorp.amcore.kubejs;
 import com.snoopycorp.amcore.hotstuff.HotState;
 import com.snoopycorp.amcore.hotstuff.HotStuffItem;
 
+import dev.latvian.mods.kubejs.client.LangKubeEvent;
 import dev.latvian.mods.kubejs.core.ItemKJS;
 import dev.latvian.mods.kubejs.generator.KubeAssetGenerator;
 import dev.latvian.mods.kubejs.item.ItemBuilder;
@@ -65,6 +66,16 @@ public class HotStateItemBuilder extends ItemBuilder {
             super.generateAssets(generator);
         } else {
             generator.itemModel(id, model -> model.parent(baseItem.withPrefix("item/")));
+        }
+    }
+
+    /**
+     * Without a name set by the script, the item has no translation so that its name is built from the base item.
+     */
+    @Override
+    public void generateLang(LangKubeEvent lang) {
+        if (parent.displayName != null) {
+            lang.add(id.getNamespace(), getBuilderTranslationKey(), parent.displayName.getString());
         }
     }
 }

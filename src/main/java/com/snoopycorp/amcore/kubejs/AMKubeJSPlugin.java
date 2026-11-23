@@ -11,5 +11,6 @@ public class AMKubeJSPlugin implements KubeJSPlugin {
     @Override
     public void registerBuilderTypes(BuilderTypeRegistry registry) {
         registry.of(Registries.FLUID, reg -> reg.add(AMCore.id("molten"), MoltenFluidBuilder.class, MoltenFluidBuilder::new));
+        registry.of(Registries.ITEM, reg -> reg.add(AMCore.id("hot_stuff"), HotStuffBuilder.class, HotStuffBuilder::new));
     }
 }

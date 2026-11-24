@@ -12,6 +12,22 @@ description='''
 Core mod of the Arcane & Mechanics modpack.
 '''
 
+[[mods]]
+modId="create_metallurgy"
+version="${mod_version}"
+displayName="Create Metallurgy"
+authors="${mod_authors}"
+description='''
+Metallurgy content of the Arcane & Mechanics modpack.
+'''
+
+[[dependencies.create_metallurgy]]
+    modId="amcore"
+    type="required"
+    versionRange="[1.0.0,)"
+    ordering="AFTER"
+    side="BOTH"
+
 [[dependencies.${mod_id}]]
     modId="neoforge"
     type="required"

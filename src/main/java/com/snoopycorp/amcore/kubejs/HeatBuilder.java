@@ -37,7 +37,7 @@ public class HeatBuilder {
         return state(HotState.WARM, temperature, null);
     }
 
-    @Info("Declares the warm state with its temperature and tint color, which creates the item `warm_<name>`.")
+    @Info("Declares the warm state with its temperature and heat color (middle tone of its glow), which creates the item `warm_<name>`.")
     public HeatBuilder warm(int temperature, KubeColor color) {
         return state(HotState.WARM, temperature, color);
     }
@@ -47,7 +47,7 @@ public class HeatBuilder {
         return state(HotState.HOT, temperature, null);
     }
 
-    @Info("Declares the hot state with its temperature and tint color, which creates the item `hot_<name>`.")
+    @Info("Declares the hot state with its temperature and heat color (middle tone of its glow), which creates the item `hot_<name>`.")
     public HeatBuilder hot(int temperature, KubeColor color) {
         return state(HotState.HOT, temperature, color);
     }
@@ -57,7 +57,7 @@ public class HeatBuilder {
         return state(HotState.SCORCHING, temperature, null);
     }
 
-    @Info("Declares the scorching state with its temperature and tint color, which creates the item `scorching_<name>`.")
+    @Info("Declares the scorching state with its temperature and heat color (middle tone of its glow), which creates the item `scorching_<name>`.")
     public HeatBuilder scorching(int temperature, KubeColor color) {
         return state(HotState.SCORCHING, temperature, color);
     }

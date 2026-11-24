@@ -59,10 +59,18 @@ public class HotStuffItem extends Item {
     }
 
     /**
-     * RGB tint of this item: the color given by the script, or the default color of its state.
+     * RGB heat color of this item: the color given by the script, or the default color of its state.
      */
     public int getColor() {
         return color != null ? color : state.getDefaultColor();
+    }
+
+    /**
+     * RGB heat color given by the script, or {@code null} when the item uses the default fire colors.
+     */
+    @Nullable
+    public Integer getCustomColor() {
+        return color;
     }
 
     private ItemStack getBaseStack() {

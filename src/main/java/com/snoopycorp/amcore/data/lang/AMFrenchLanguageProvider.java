@@ -3,6 +3,8 @@ package com.snoopycorp.amcore.data.lang;
 import com.snoopycorp.amcore.AMCore;
 import com.snoopycorp.amcore.hotstuff.HotState;
 import com.snoopycorp.amcore.hotstuff.HotStuffItem;
+import com.snoopycorp.amcore.machinetier.MachineTier;
+import com.snoopycorp.amcore.machinetier.recipe.AMRecipeTypes;
 
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.LanguageProvider;
@@ -24,5 +26,27 @@ public class AMFrenchLanguageProvider extends LanguageProvider {
         add(HotState.WARM.getTranslationKey(), "Tiède");
         add(HotState.HOT.getTranslationKey(), "Chaud");
         add(HotState.SCORCHING.getTranslationKey(), "Brûlant");
+
+        add(MachineTier.TOOLTIP_KEY, "Palier : %s");
+        add(MachineTier.ASSEMBLY_KEY, "%s (%s+)");
+        add(MachineTier.ADVANCED.getTranslationKey(), "Avancé");
+        add(MachineTier.ELITE.getTranslationKey(), "Élite");
+        add(MachineTier.ULTIMATE.getTranslationKey(), "Ultime");
+        for (AMRecipeTypes type : AMRecipeTypes.values()) {
+            String process = switch (type.process()) {
+                case PRESSING -> "Pressage";
+                case COMPACTING -> "Compactage";
+                case MIXING -> "Mélange";
+                case CUTTING -> "Sciage";
+                case DEPLOYING -> "Déploiement";
+                case FILLING -> "Remplissage";
+            };
+            String tier = switch (type.tier()) {
+                case ADVANCED -> "avancé";
+                case ELITE -> "élite";
+                default -> "ultime";
+            };
+            add(AMCore.MODID + ".recipe." + type.getId().getPath(), process + " " + tier);
+        }
     }
 }

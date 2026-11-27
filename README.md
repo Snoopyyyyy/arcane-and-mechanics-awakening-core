@@ -53,18 +53,20 @@ Work is merged into `develop` through pull requests. The branch name sets how `m
 | `fix/*`     | Patch bump               | 1.2.3 → 1.2.4   |
 | other       | None, nothing is published | 1.2.3 → 1.2.3 |
 
-Bump the version once, on the branch, and describe the changes in `patch-notes/<version>.md`. The `Check` workflow fails a pull request whose version doesn't follow these rules or whose patch notes are missing.
+Bump the version once, on the branch, and describe the changes in `patch-notes/<version>.md`.
 
-The `Build and publish` workflow then builds the jar and uploads it to CurseForge:
+The `Pipeline` workflow runs on every pull request into `develop` or `main`, and on pushes to these branches that change files under `src/`. It chains three jobs:
+
+1. **Check**: on a pull request, fails when the version doesn't follow the rules above or its patch notes are missing. On a push, decides what to publish and fails when the version to publish has no patch notes.
+2. **Build**, when files under `src/` changed: builds the jar and keeps it as the artifact `amcore-<branch>` (`amcore-pr-<number>` for a pull request). Only the latest jar of each branch is kept.
+3. **Publish**, on pushes only: uploads that jar to CurseForge.
+
+`Check` runs on every pull request so that it can be required to merge: in the repository rules of `develop` and `main`, require a pull request and the status check `Check`.
 
 | Branch    | CurseForge type | Published when                         | Changelog |
 |-----------|-----------------|----------------------------------------|-----------|
 | `develop` | Beta            | the push changed `mod_version`         | `patch-notes/<version>.md` |
 | `main`    | Release         | `v<version>` isn't tagged yet (it is tagged after publishing) | every patch note since the previous release |
-
-A version to publish without its patch notes fails the workflow.
-
-Both workflows only run when the pull request or the push changes files under `src/`.
 
 The workflow needs, in the repository settings:
 

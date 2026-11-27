@@ -1,0 +1,157 @@
+name: Pipeline
+
+on:
+  # Every pull request runs the check, so that it can be a required status check. Build only runs when src changes.
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches: [main, develop]
+    paths:
+      - 'src/**'
+
+concurrency:
+  group: pipeline-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Check
+    runs-on: ubuntu-latest
+    outputs:
+      build: ${{ steps.changes.outputs.build }}
+      version: ${{ steps.meta.outputs.version }}
+      type: ${{ steps.meta.outputs.type }}
+      publish: ${{ steps.meta.outputs.publish }}
+      changelog: ${{ steps.changelog.outputs.changelog }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check version and patch notes
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_BRANCH: ${{ github.base_ref }}
+          HEAD_BRANCH: ${{ github.head_ref }}
+        run: bash .github/scripts/check-pr.sh "$BASE_BRANCH" "$HEAD_BRANCH"
+
+      - name: Look for changes under src
+        id: changes
+        env:
+          BASE_BRANCH: ${{ github.base_ref }}
+        run: |
+          if [ "$GITHUB_EVENT_NAME" = "push" ] || ! git diff --quiet "origin/$BASE_BRANCH...HEAD" -- src; then
+            echo "build=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "build=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Nothing changed under src: the jar is not built."
+          fi
+
+      - name: Read version and patch notes
+        id: meta
+        if: github.event_name == 'push'
+        run: bash .github/scripts/release-meta.sh "$GITHUB_REF_NAME" build/release/changelog.md
+
+      - name: Pass the changelog on
+        id: changelog
+        if: steps.meta.outputs.publish == 'true'
+        run: |
+          delimiter="CHANGELOG_$(openssl rand -hex 8)"
+          {
+            echo "changelog<<$delimiter"
+            cat build/release/changelog.md
+            echo "$delimiter"
+          } >> "$GITHUB_OUTPUT"
+
+  build:
+    name: Build
+    needs: check
+    if: needs.check.outputs.build == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: write
+    env:
+      ARTIFACT: amcore-${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.number) || github.ref_name }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Build
+        run: ./gradlew build
+
+      - name: Upload jar
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.ARTIFACT }}
+          path: output/*.jar
+          if-no-files-found: error
+
+      - name: Delete the jars of previous runs
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api --paginate "repos/$GITHUB_REPOSITORY/actions/artifacts?name=$ARTIFACT&per_page=100" \
+            --jq ".artifacts[] | select(.workflow_run.id != $GITHUB_RUN_ID) | .id" |
+          while read -r id; do
+            gh api -X DELETE "repos/$GITHUB_REPOSITORY/actions/artifacts/$id"
+            echo "Deleted artifact $id"
+          done
+
+  publish:
+    name: Publish
+    needs: [check, build]
+    if: github.event_name == 'push' && needs.check.outputs.publish == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download jar
+        uses: actions/download-artifact@v4
+        with:
+          name: amcore-${{ github.ref_name }}
+          path: output
+
+      - name: Publish to CurseForge
+        uses: Kir-Antipov/mc-publish@v3.3
+        with:
+          curseforge-id: ${{ vars.CURSEFORGE_PROJECT_ID }}
+          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+          files: output/*.jar
+          name: Arcane & Mechanics Core ${{ needs.check.outputs.version }}
+          version: ${{ needs.check.outputs.version }}
+          version-type: ${{ needs.check.outputs.type }}
+          changelog: ${{ needs.check.outputs.changelog }}
+          loaders: neoforge
+          game-versions: 1.21.1
+          java: 21
+          dependencies: |
+            create(required){curseforge:create}
+            kubejs(optional){curseforge:kubejs}
+            jei(optional){curseforge:jei}
+            mysticalagradditions(optional){curseforge:mystical-agradditions}
+
+      - name: Tag release
+        if: needs.check.outputs.type == 'release'
+        env:
+          TAG: v${{ needs.check.outputs.version }}
+        run: |
+          git tag "$TAG"
+          git push origin "$TAG"

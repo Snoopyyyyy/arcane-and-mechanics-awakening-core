@@ -11,8 +11,27 @@ import dev.latvian.mods.kubejs.registry.BuilderTypeRegistry;
 import net.minecraft.core.registries.Registries;
 
 public class AMKubeJSPlugin implements KubeJSPlugin {
+    /**
+     * KubeJS reads {@code kubejs.plugins.txt} once per mod, and this jar holds two mods (amcore and create_metallurgy),
+     * so it creates this plugin twice. Only the first instance does anything.
+     */
+    private static AMKubeJSPlugin active;
+
+    public AMKubeJSPlugin() {
+        if (active == null) {
+            active = this;
+        }
+    }
+
+    private boolean isDuplicate() {
+        return active != this;
+    }
+
     @Override
     public void registerBuilderTypes(BuilderTypeRegistry registry) {
+        if (isDuplicate()) {
+            return;
+        }
         registry.of(Registries.FLUID, reg -> reg.add(AMCore.id("molten"), MoltenFluidBuilder.class, MoltenFluidBuilder::new));
         registry.of(Registries.ITEM, reg -> reg.add(AMCore.id("hot_stuff"), HotStuffBuilder.class, HotStuffBuilder::new));
     }
@@ -23,6 +42,9 @@ public class AMKubeJSPlugin implements KubeJSPlugin {
      */
     @Override
     public void registerRecipeSchemas(RecipeSchemaRegistry registry) {
+        if (isDuplicate()) {
+            return;
+        }
         RecipeNamespace namespace = registry.namespace(AMCore.MODID);
         for (AMRecipeTypes type : AMRecipeTypes.values()) {
             try {

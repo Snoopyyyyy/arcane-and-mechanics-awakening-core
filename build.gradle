@@ -83,10 +83,35 @@ repositories {
             includeGroup "dev.latvian.apps"
         }
     }
+    maven {
+        url = "https://maven.createmod.net"
+        content {
+            includeGroup "com.simibubi.create"
+            includeGroup "net.createmod.ponder"
+            includeGroup "dev.engine-room.flywheel"
+        }
+    }
+    maven {
+        url = "https://maven.blamejared.com"
+        content {
+            includeGroup "mezz.jei"
+        }
+    }
 }
 
 dependencies {
     compileOnly "dev.latvian.mods:kubejs-neoforge:${kubejs_version}"
+    compileOnly("dev.latvian.mods:kubejs-create-neoforge:${kubejs_create_version}") { transitive = false }
+
+    compileOnly("com.simibubi.create:create-${minecraft_version}:${create_version}:slim") { transitive = false }
+    compileOnly("net.createmod.ponder:ponder-neoforge:${ponder_version}") { transitive = false }
+    compileOnly("dev.engine-room.flywheel:flywheel-neoforge-api-${minecraft_version}:${flywheel_version}") { transitive = false }
+
+    compileOnly "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}"
+
+    // Create is a required dependency: the full jar (with Flywheel, Ponder and Registrate nested) lets the dev runs,
+    // data generation included, load the mod
+    localRuntime("com.simibubi.create:create-${minecraft_version}:${create_version}") { transitive = false }
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
@@ -100,6 +125,7 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
             mod_license            : mod_license,
             mod_version            : mod_version,
             mod_authors            : mod_authors,
+            create_version_range   : create_version_range,
     ]
     inputs.properties replaceProperties
     expand replaceProperties

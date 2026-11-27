@@ -1,0 +1,25 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.snoopycorp.amcore.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "BasinOperatingBlockEntityMixin",
+    "DeployerBlockEntityMixin",
+    "MechanicalMixerBlockEntityMixin",
+    "MechanicalPressBlockEntityMixin",
+    "PressingBehaviourMixin",
+    "SawBlockEntityMixin",
+    "SpoutBlockEntityMixin"
+  ],
+  "client": [
+    "client.AnimatedMachineMixin",
+    "client.AnimatedMixerMixin",
+    "client.AnimatedSpoutMixin",
+    "client.CreateRecipeCategoryMixin",
+    "client.SequencedAssemblyCategoryMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

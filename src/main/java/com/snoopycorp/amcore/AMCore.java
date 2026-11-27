@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
 import com.snoopycorp.amcore.config.AMConfig;
+import com.snoopycorp.amcore.config.AMServerConfig;
+import com.snoopycorp.amcore.machinetier.recipe.AMRecipeTypes;
 
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
@@ -18,6 +20,8 @@ public class AMCore {
 
     public AMCore(IEventBus modEventBus, ModContainer modContainer) {
         modContainer.registerConfig(ModConfig.Type.COMMON, AMConfig.SPEC);
+        modContainer.registerConfig(ModConfig.Type.SERVER, AMServerConfig.SPEC);
+        AMRecipeTypes.register(modEventBus);
     }
 
     public static ResourceLocation id(String path) {

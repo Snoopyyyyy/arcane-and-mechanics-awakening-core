@@ -10,7 +10,15 @@ It provides the content the modpack needs that KubeJS scripts cannot handle clea
 |-----------|---------|
 | Minecraft | 1.21.1 |
 | NeoForge  | 21.1.248 or newer |
+| Create    | 6.0.10 or newer |
 | Java      | 21 |
+
+KubeJS (with KubeJS Create) and JEI are optional; amcore adds recipe schemas and categories when they are present.
+
+## Features
+
+- [Create machine tiers](docs/machine-tiers.md): tiered recipe types, speed and spout capacity for Create's press,
+  mixer, saw, deployer and spout, with their KubeJS schemas and JEI categories.
 
 ## Development
 

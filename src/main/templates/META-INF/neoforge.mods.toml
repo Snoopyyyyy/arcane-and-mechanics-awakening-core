@@ -48,3 +48,20 @@ Metallurgy content of the Arcane & Mechanics modpack.
     versionRange="[2101.7,)"
     ordering="NONE"
     side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="create"
+    type="required"
+    versionRange="${create_version_range}"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="jei"
+    type="optional"
+    versionRange="[19,)"
+    ordering="NONE"
+    side="CLIENT"
+
+[[mixins]]
+    config="${mod_id}.mixins.json"

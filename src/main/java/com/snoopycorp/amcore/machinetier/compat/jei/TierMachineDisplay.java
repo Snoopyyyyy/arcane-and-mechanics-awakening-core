@@ -48,6 +48,17 @@ public final class TierMachineDisplay {
         current = null;
     }
 
+    /** Machine of a tiered type to draw until {@link #restore}; returns the previous one. */
+    public static AMRecipeTypes push(AMRecipeTypes type) {
+        AMRecipeTypes previous = current;
+        current = type;
+        return previous;
+    }
+
+    public static void restore(AMRecipeTypes previous) {
+        current = previous;
+    }
+
     /** Machine of the tier being drawn, or {@code null} when Create's own should be drawn. */
     private static Block machine() {
         return current == null ? null : MachineTier.displayMachine(current.process(), current.tier());

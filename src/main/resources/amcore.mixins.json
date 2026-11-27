@@ -16,7 +16,8 @@
     "client.AnimatedMachineMixin",
     "client.AnimatedMixerMixin",
     "client.AnimatedSpoutMixin",
-    "client.CreateRecipeCategoryMixin"
+    "client.CreateRecipeCategoryMixin",
+    "client.SequencedAssemblyCategoryMixin"
   ],
   "injectors": {
     "defaultRequire": 1

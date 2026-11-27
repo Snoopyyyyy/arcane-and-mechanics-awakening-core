@@ -16,19 +16,6 @@ plain recipe, and Create's recipes come last.
 
 ## Changelog
 
-1.1.2
-
-- JEI sequenced assembly: a tiered step draws the machine of its tier (same choice as the tiered categories); Create's
-  steps keep Create's machines.
-
-1.1.1
-
-- JEI: each tiered category draws the machine of its tier (the one in the tier tag, with Create Encased's own mixer
-  head and spout bottom when it has them) instead of Create's machine. The category icon shows it too.
-- KubeJS: the plugin no longer registers its builder types and recipe schemas twice (no more "Previous 'amcore:...'
-  type ... replaced" warnings).
-- Docs: the server config is in `config/amcore-server.toml`.
-
 1.1.0
 
 - Machine tiers for Create's press, mixer, saw, deployer and spout, read from the block tags
@@ -37,8 +24,11 @@ plain recipe, and Create's recipes come last.
   steps (pressing, cutting, deploying, filling).
 - Speed bonus per tier on every recipe, Create's included. Bigger spout tank per tier.
 - KubeJS schemas `event.recipes.amcore.<tier>_<process>`, identical to KubeJS Create's.
-- JEI: one category per tiered type, with the machines that can run it. Tiered machines get a "Tier: ..." tooltip line.
-- New server config `amcore-server.toml`.
+- JEI: one category per tiered type, with the machines that can run it. Each category, its icon and each tiered
+  sequenced assembly step draw the machine of the tier (with Create Encased's own mixer head and spout bottom when it
+  has them). Tiered machines get a "Tier: ..." tooltip line.
+- New server config `config/amcore-server.toml`.
+- The KubeJS plugin registers once, although the jar holds two mods (amcore and create_metallurgy).
 - Create 6.0.10 or newer is now a required dependency.
 
 ## Tags

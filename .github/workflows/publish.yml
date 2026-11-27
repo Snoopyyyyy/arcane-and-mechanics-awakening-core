@@ -5,8 +5,8 @@ on:
     branches: [main, develop]
     paths-ignore:
       - 'README.md'
+      - 'docs/**'
       - '.devcontainer/**'
-  workflow_dispatch:
 
 concurrency:
   group: publish-${{ github.ref }}
@@ -24,6 +24,10 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Read version and patch notes
+        id: meta
+        run: bash .github/scripts/release-meta.sh "$GITHUB_REF_NAME" build/release/changelog.md
+
       - name: Set up Java 21
         uses: actions/setup-java@v4
         with:
@@ -33,42 +37,8 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Compute version
-        id: meta
-        run: |
-          BASE=$(grep '^mod_version=' gradle.properties | cut -d= -f2 | tr -d '\r')
-          if [ "$GITHUB_REF_NAME" = "main" ]; then
-            VERSION="$BASE"
-            TYPE=release
-          else
-            VERSION="$BASE-beta.$GITHUB_RUN_NUMBER"
-            TYPE=beta
-          fi
-
-          PUBLISH=true
-          if [ "$TYPE" = "release" ] && git rev-parse -q --verify "refs/tags/v$VERSION" >/dev/null; then
-            echo "::notice::v$VERSION is already released. Bump mod_version in gradle.properties to publish a new release."
-            PUBLISH=false
-          fi
-
-          PREV=$(git describe --tags --abbrev=0 --match 'v*' HEAD 2>/dev/null || true)
-          if [ -n "$PREV" ]; then
-            CHANGELOG=$(git log "$PREV..HEAD" --no-merges --format='- %s')
-          else
-            CHANGELOG=$(git log -n 30 --no-merges --format='- %s')
-          fi
-
-          {
-            echo "version=$VERSION"
-            echo "type=$TYPE"
-            echo "publish=$PUBLISH"
-            echo "changelog<<CHANGELOG_EOF"
-            echo "$CHANGELOG"
-            echo "CHANGELOG_EOF"
-          } >> "$GITHUB_OUTPUT"
-
       - name: Build
-        run: ./gradlew build -Pmod_version=${{ steps.meta.outputs.version }}
+        run: ./gradlew build
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
@@ -86,12 +56,14 @@ jobs:
           name: Arcane & Mechanics Core ${{ steps.meta.outputs.version }}
           version: ${{ steps.meta.outputs.version }}
           version-type: ${{ steps.meta.outputs.type }}
-          changelog: ${{ steps.meta.outputs.changelog }}
+          changelog-file: build/release/changelog.md
           loaders: neoforge
           game-versions: 1.21.1
           java: 21
           dependencies: |
+            create(required){curseforge:create}
             kubejs(optional){curseforge:kubejs}
+            jei(optional){curseforge:jei}
             mysticalagradditions(optional){curseforge:mystical-agradditions}
 
       - name: Tag release

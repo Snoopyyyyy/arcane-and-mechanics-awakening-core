@@ -45,14 +45,24 @@ Translations are provided for `en_us` and `fr_fr`.
 
 ### Publishing
 
-The `Build and publish` workflow builds the jar and uploads it to CurseForge on every push:
+Work is merged into `develop` through pull requests. The branch name sets how `mod_version` in `gradle.properties` must change:
 
-| Branch    | CurseForge type | Version |
-|-----------|-----------------|---------|
-| `main`    | Release         | `mod_version`, tagged `v<version>` |
-| `develop` | Beta            | `mod_version-beta.<run number>` |
+| Branch      | Version change           | Example         |
+|-------------|--------------------------|-----------------|
+| `feature/*` | Minor bump               | 1.2.3 → 1.3.0   |
+| `fix/*`     | Patch bump               | 1.2.3 → 1.2.4   |
+| other       | None, nothing is published | 1.2.3 → 1.2.3 |
 
-A version that is already tagged is not published again, so bump `mod_version` in `gradle.properties` before merging into `main`.
+Bump the version once, on the branch, and describe the changes in `patch-notes/<version>.md`. The `Check` workflow fails a pull request whose version doesn't follow these rules or whose patch notes are missing.
+
+The `Build and publish` workflow then builds the jar and uploads it to CurseForge:
+
+| Branch    | CurseForge type | Published when                         | Changelog |
+|-----------|-----------------|----------------------------------------|-----------|
+| `develop` | Beta            | the push changed `mod_version`         | `patch-notes/<version>.md` |
+| `main`    | Release         | `v<version>` isn't tagged yet (it is tagged after publishing) | every patch note since the previous release |
+
+A version to publish without its patch notes fails the workflow.
 
 The workflow needs, in the repository settings:
 

@@ -3,10 +3,8 @@ name: Build and publish
 on:
   push:
     branches: [main, develop]
-    paths-ignore:
-      - 'README.md'
-      - 'docs/**'
-      - '.devcontainer/**'
+    paths:
+      - 'src/**'
 
 concurrency:
   group: publish-${{ github.ref }}

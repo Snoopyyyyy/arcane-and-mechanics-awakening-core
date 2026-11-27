@@ -64,6 +64,8 @@ The `Build and publish` workflow then builds the jar and uploads it to CurseForg
 
 A version to publish without its patch notes fails the workflow.
 
+Both workflows only run when the pull request or the push changes files under `src/`.
+
 The workflow needs, in the repository settings:
 
 - the secret `CURSEFORGE_TOKEN`, an API token from the CurseForge account settings;

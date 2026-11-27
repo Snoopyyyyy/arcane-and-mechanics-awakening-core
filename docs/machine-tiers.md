@@ -16,6 +16,11 @@ plain recipe, and Create's recipes come last.
 
 ## Changelog
 
+1.1.2
+
+- JEI sequenced assembly: a tiered step draws the machine of its tier (same choice as the tiered categories); Create's
+  steps keep Create's machines.
+
 1.1.1
 
 - JEI: each tiered category draws the machine of its tier (the one in the tier tag, with Create Encased's own mixer
@@ -197,8 +202,8 @@ In `assets/amcore/lang/en_us.json` and `fr_fr.json`:
 ## Known limits
 
 - **JEI sequenced assembly**: Create 6.0.10 never reads the machines a step requires, so the category cannot list the
-  tier machines. A tiered step shows its tier in its text instead ("Pressing (Advanced+)"), in JEI and on the
-  transitional item.
+  tier machines. A tiered step draws the machine of its own tier and shows its tier in its text ("Pressing
+  (Advanced+)"), in JEI and on the transitional item; the higher tiers that can also run it are not listed.
 - **Spout tank size** is set when the spout loads. After a tag or config change, it applies to spouts placed or
   reloaded afterwards. A spout whose capacity shrinks keeps its fluid (Create does not clamp the tank on load): it can
   still drain it, but accepts no more until it is under the new capacity.

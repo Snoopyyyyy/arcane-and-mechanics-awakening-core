@@ -1,6 +1,6 @@
 # Create machine tiers
 
-amcore 1.1.0 gives Create's press, mixer, saw, deployer and spout a tier, read from block tags filled by the pack.
+amcore 1.1 gives Create's press, mixer, saw, deployer and spout a tier, read from block tags filled by the pack.
 Each tier has its own recipe types. A machine runs the recipes of its tier, of every lower tier and Create's own, and
 works faster.
 
@@ -15,6 +15,14 @@ When several recipes fit the same input, the highest tier wins. For each tier, a
 plain recipe, and Create's recipes come last.
 
 ## Changelog
+
+1.1.1
+
+- JEI: each tiered category draws the machine of its tier (the one in the tier tag, with Create Encased's own mixer
+  head and spout bottom when it has them) instead of Create's machine. The category icon shows it too.
+- KubeJS: the plugin no longer registers its builder types and recipe schemas twice (no more "Previous 'amcore:...'
+  type ... replaced" warnings).
+- Docs: the server config is in `config/amcore-server.toml`.
 
 1.1.0
 
@@ -52,7 +60,9 @@ ServerEvents.tags('block', event => {
 
 After `/reload`, recipes and speed follow the new tags. A spout's tank size is set when the spout loads (see "Known
 limits"). JEI catalysts use the machines that are both in a tier tag and in Create's machine tag of the process
-(`create:presses`, `create:mixers`, `create:saws`, `create:deployers`, `create:spouts`).
+(`create:presses`, `create:mixers`, `create:saws`, `create:deployers`, `create:spouts`). The machine drawn in a
+category, and its icon, is the machine of exactly that tier (the first one if the tag holds several), else the lowest
+machine above it, else Create's.
 
 ## Recipe types
 
@@ -149,8 +159,8 @@ Compacting and mixing are not sequenced assembly steps, as in Create.
 
 ## Config
 
-Server config, synced to clients: `saves/<world>/serverconfig/amcore-server.toml`. To ship values for new worlds, put a
-copy in `defaultconfigs/amcore-server.toml`.
+Server config: `config/amcore-server.toml`. It is read by the server (the integrated one in single player) and sent to
+clients when they join, so on a dedicated server the server's file is the one that counts.
 
 | Key (section `machine_tiers`) | Default | Range |
 | --- | --- | --- |

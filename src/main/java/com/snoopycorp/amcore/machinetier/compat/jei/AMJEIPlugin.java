@@ -115,14 +115,10 @@ public class AMJEIPlugin implements IModPlugin {
         };
     }
 
-    /** The category icon shows a machine of the tier when the pack defines one, Create's machine otherwise. */
+    /** The category icon shows the machine of the tier when the pack defines one, Create's machine otherwise. */
     private static Item iconMachine(AMRecipeTypes type) {
-        for (Block block : MachineTier.machines(type.process(), type.tier())) {
-            if (MachineTier.of(block) == type.tier()) {
-                return block.asItem();
-            }
-        }
-        return item(type.process().baseMachine());
+        Block machine = MachineTier.displayMachine(type.process(), type.tier());
+        return machine != null ? machine.asItem() : item(type.process().baseMachine());
     }
 
     private static Item item(String namespace, String path) {

@@ -12,6 +12,12 @@
     "SawBlockEntityMixin",
     "SpoutBlockEntityMixin"
   ],
+  "client": [
+    "client.AnimatedMachineMixin",
+    "client.AnimatedMixerMixin",
+    "client.AnimatedSpoutMixin",
+    "client.CreateRecipeCategoryMixin"
+  ],
   "injectors": {
     "defaultRequire": 1
   }

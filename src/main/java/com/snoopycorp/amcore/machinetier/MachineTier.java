@@ -100,6 +100,20 @@ public enum MachineTier {
     }
 
     /**
+     * Machine shown for recipes of a process at a tier: a machine of exactly that tier, else the lowest machine above
+     * it, else {@code null}.
+     */
+    public static Block displayMachine(TierProcess process, MachineTier tier) {
+        List<Block> machines = machines(process, tier);
+        for (Block block : machines) {
+            if (of(block) == tier) {
+                return block;
+            }
+        }
+        return machines.isEmpty() ? null : machines.getFirst();
+    }
+
+    /**
      * Machines of a process whose tier is at least {@code min}, lowest tier first: blocks of the tier tags that are
      * also in Create's machine tag of the process.
      */
